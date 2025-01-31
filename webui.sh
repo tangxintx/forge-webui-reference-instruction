@@ -7,25 +7,20 @@ echo "Starting script: $(basename "$0")"
 echo "Shell level: $SHLVL"
 echo "Current working directory: $(pwd)"
 
-# Lock file to prevent recursive calls
-LOCK_FILE="/tmp/webui.lock"
-
-# Check if lock file exists, indicating the script is already running
-if [[ -f "$LOCK_FILE" ]]; then
-    echo "Error: This script is already running. Exiting to prevent recursive call."
+# Prevent recursive calls using environment variable
+if [[ -n "$WEBUI_SH_RUNNING" ]]; then
+    echo "Error: This script is being called recursively!"
     exit 1
 fi
-
-# Create lock file
-touch "$LOCK_FILE"
-
-# Ensure that the lock file is removed when the script finishes
-trap "rm -f $LOCK_FILE" EXIT
 
 # Set the flag indicating that the script is running
 export WEBUI_SH_RUNNING=1
 
-# Continue with the rest of the script
+# Example check to ensure the script isn't called recursively
+if [[ "$0" == "./webui.sh" ]]; then
+    echo "Error: This script is being called recursively!"
+    exit 1
+fi
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
@@ -149,6 +144,44 @@ then
 fi
 
 # Check prerequisites
+gpu_info=$(lspci 2>/dev/null | grep -E "VGA|Display")
+case "$gpu_info" in
+    *"Navi 1"*)
+        export HSA_OVERRIDE_GFX_VERSION=10.3.0
+        if [[ -z "${TORCH_COMMAND}" ]]
+        then
+            pyv="$(${python_cmd} -c 'import sys; print(f"{sys.version_info[0]}.{sys.version_info[1]:02d}")')"
+            # Using an old nightly compiled against rocm 5.2 for Navi1, see https://github.com/pytorch/pytorch/issues/106728#issuecomment-1749511711
+            if [[ $pyv == "3.8" ]]
+            then
+                export TORCH_COMMAND="pip install https://download.pytorch.org/whl/nightly/rocm5.2/torch-2.0.0.dev20230209%2Brocm5.2-cp38-cp38-linux_x86_64.whl https://download.pytorch.org/whl/nightly/rocm5.2/torchvision-0.15.0.dev20230209%2Brocm5.2-cp38-cp38-linux_x86_64.whl"
+            elif [[ $pyv == "3.9" ]]
+            then
+                export TORCH_COMMAND="pip install https://download.pytorch.org/whl/nightly/rocm5.2/torch-2.0.0.dev20230209%2Brocm5.2-cp39-cp39-linux_x86_64.whl https://download.pytorch.org/whl/nightly/rocm5.2/torchvision-0.15.0.dev20230209%2Brocm5.2-cp39-cp39-linux_x86_64.whl"
+            elif [[ $pyv == "3.10" ]]
+            then
+                export TORCH_COMMAND="pip install https://download.pytorch.org/whl/nightly/rocm5.2/torch-2.0.0.dev20230209%2Brocm5.2-cp310-cp310-linux_x86_64.whl https://download.pytorch.org/whl/nightly/rocm5.2/torchvision-0.15.0.dev20230209%2Brocm5.2-cp310-cp310-linux_x86_64.whl"
+            else
+                printf "\e[1m\e[31mERROR: RX 5000 series GPUs python version must be between 3.8 and 3.10, aborting...\e[0m"
+                exit 1
+            fi
+        fi
+    ;;
+    *"Navi 2"*) export HSA_OVERRIDE_GFX_VERSION=10.3.0
+    ;;
+    *"Navi 3"*) [[ -z "${TORCH_COMMAND}" ]] && \
+         export TORCH_COMMAND="pip install torch torchvision --index-url https://download.pytorch.org/whl/nightly/rocm5.7"
+    ;;
+    *"Renoir"*) export HSA_OVERRIDE_GFX_VERSION=9.0.0
+        printf "\n%s\n" "${delimiter}"
+        printf "Experimental support for Renoir: make sure to have at least 4GB of VRAM and 10GB of RAM or enable cpu mode: --use-cpu all --no-half"
+        printf "\n%s\n" "${delimiter}"
+    ;;
+    *)
+    ;;
+esac
+
+# Check dependencies
 for pre_req in python3 git pip; do
     if ! command -v $pre_req &> /dev/null
     then
