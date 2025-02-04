@@ -1,16 +1,122 @@
-# forge-webui_tx-fix
-forge-webui针对腾讯GPU工作空间部分特殊bug的修复版本
+原作者前言：
+1.本webui.sh有修改，可能在运行环境变更时出现奇怪bug
+2.本修改版完全开源,禁止任何商业用途（包括但不限于整合进安装脚本内进行收费，制作非收费安装脚本使用时请标明来源！），违者...把你挂在这下面！（o_o）
 
-警告
+#基本可以正常使用了
 
-1.本webui.sh基于腾讯GPU云工作平台进行了部分修改，可能会出现运行不稳定，出现疑难杂症等问题，不建议在其他环境使用
+#无明显改动，仅是添加了教学运行指令（给不会指令的纯小白使用的）（想改原码，一改就报错，放弃了）个人能力有限，不接受反馈！
 
-2.本修改版补丁完全开源,禁止任何商业用途（包括但不限于整合进安装脚本内进行收费，制作非收费安装脚本使用时请标明来源！），违者...把你挂在这下面！（o_o）
+原项目地址：
+https://github.com/minecraftHCX/forge-webui_tx-fix/
 
-3.本安装脚本仅为了方便操作而制作，作者不负任何使用后果，若在安装过程中出现问题请在github上反馈，安装完成后任何bug作者理论上均不负责进行任何维护"
+【SD-forge自制安装脚本-视频参考】 https://b23.tv/Jjrchfc
 
-4.请确保你已经了解这些知识：内网穿透、终端指令、python中的报错解决方式"
+#将代码复制在终端；报错问题请找GPT解决！
 
-5.命令行操作等常识作者不会教！自己去bing上面学会了再用！有问题虚心求教，没有人有义务为你进行解答，请不要随意攻击他人!"
+克隆项目：
 
-另：内网穿透新手建议参考此分支库，主要提供了ngrok的具体配置运行：https://github.com/tangxintx/forge-webui_tx-fix         【作者：tangxintx】（安装脚本没改完，运行会出bug，不建议使用此分支库的安装脚本）
+git clone https://github.com/minecraftHCX/forge-webui_tx-fix/
+
+解压zip包：
+
+apt-get install unzip
+
+unzip /workspace/forge-webui_tx-fix.zip -d /workspace/
+
+
+运行脚本：
+
+cd /workspace/forge-webui_tx-fix-main
+
+bash install.sh
+
+安装配置ngrok：
+
+wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.tgz 
+
+#下载慢属正常
+
+tar -xvzf ngrok-stable-*.tgz
+
+#YOUR_AUTHTOKEN替换为你在ngrok.com官网中获取的实际token
+
+ngrok authtoken YOUR_AUTHTOKEN 
+
+默认端口7860，ngrok代理7860端口：
+
+ngrok http://localhost:7860
+
+最后打开ngrok给的链接（ngrok免费账号每月1GB代理流量）
+
+#写的有亿点烂了，边写寒假作业边写代码；
+
+#非教学指令报错，勿找我；脚本报错，找原作者；
+原作者前言：
+1.本webui.sh有修改，可能在运行环境变更时出现奇怪bug
+2.本修改版完全开源,禁止任何商业用途（包括但不限于整合进安装脚本内进行收费，制作非收费安装脚本使用时请标明来源！），违者...把你挂在这下面！（o_o）
+
+#基本可以正常使用了
+
+#无明显改动，仅是添加了教学运行指令（给不会指令的纯小白使用的）（想改原码，一改就报错，放弃了）个人能力有限，不接受反馈！
+
+原项目地址：
+https://github.com/minecraftHCX/forge-webui_tx-fix/
+
+【SD-forge自制安装脚本-视频参考】 https://b23.tv/Jjrchfc
+
+#将代码复制在终端；报错问题请找GPT解决！
+
+克隆项目：
+
+git clone https://github.com/minecraftHCX/forge-webui_tx-fix/
+
+解压zip包：
+
+apt-get install unzip
+
+unzip /workspace/forge-webui_tx-fix.zip -d /workspace/
+
+
+运行脚本：
+
+cd /workspace/forge-webui_tx-fix-main
+
+bash install.sh
+
+安装配置ngrok：
+
+wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.tgz 
+
+#下载慢属正常
+
+tar -xvzf ngrok-stable-*.tgz
+
+#YOUR_AUTHTOKEN替换为你在ngrok.com官网中获取的实际token
+
+ngrok authtoken YOUR_AUTHTOKEN 
+
+默认端口7860，ngrok代理7860端口：
+
+ngrok http://localhost:7860
+
+最后打开ngrok给的链接（ngrok免费账号每月1GB代理流量）
+
+#写的有亿点烂了，边写寒假作业边写代码；
+
+#非教学指令报错，勿找我；脚本报错，找原作者；
+
+#报错问题请找GPT解决！不要找我！
+
+#没有万能的人 ，作者仅是14岁初中生；
+
+#找我的人是这个👎-，我更是这个👍+
+
+#蹲个Ubuntu纯命令行科学上网教程❤️
+
+#报错问题请找GPT解决！不要找我！
+
+#没有万能的人 ，作者仅是14岁初中生；
+
+#找我的人是这个👎-，我更是这个👍+
+
+#蹲个Ubuntu纯命令行科学上网教程❤️
