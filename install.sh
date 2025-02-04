@@ -27,7 +27,7 @@ echo -e "                        "
 echo -e "${YELLOW}注意：之后安装部分模块或程序时会出现是否安装的询问，请输入y(yes)继续安装_(:з」∠)_"
 echo -e "                        "
 read -p "准备好后，请按任意键继续！"
-echo -e "开始安装必要库...${NOCOLOR}"
+echo -e "${NOCOLOR}开始安装必要库..."
 apt install libgl1-mesa-glx
 echo -e "${GREEN}开始安装Forge...${NOCOLOR}"
 git clone https://github.com/lllyasviel/stable-diffusion-webui-forge.git
