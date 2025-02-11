@@ -15,18 +15,12 @@ https://github.com/minecraftHCX/forge-webui_tx-fix/
 
 克隆项目：
 
-git clone https://github.com/minecraftHCX/forge-webui_tx-fix/
-
-解压zip包：
-
-apt-get install unzip
-
-unzip /workspace/forge-webui_tx-fix.zip -d /workspace/
+git clone https://github.com/minecraftHCX/forge-webui_tx-fix
 
 
 运行脚本：
 
-cd /workspace/forge-webui_tx-fix-main
+cd /workspace/forge-webui_tx-fix
 
 bash install.sh
 
